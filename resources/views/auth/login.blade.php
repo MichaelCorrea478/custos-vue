@@ -32,7 +32,7 @@
 
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
+<div class="login-box" id="app">
     <div class="login-logo">
         <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
     </div>
@@ -40,7 +40,7 @@
     <!-- /.login-logo -->
 
     <!-- /.login-box-body -->
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
@@ -100,7 +100,9 @@
             </p>
         </div>
         <!-- /.login-card-body -->
-    </div>
+    </div> --}}
+
+    <login-component csrf_token={{ @csrf_token() }}></login-component>
 
 </div>
 <!-- /.login-box -->
@@ -121,6 +123,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"
         integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
 </body>
 </html>
