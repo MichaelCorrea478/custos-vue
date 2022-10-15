@@ -23,12 +23,9 @@ class Ingredient extends Model
     use HasFactory;
 
     public $table = 'ingredients';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-
 
     public $fillable = [
         'user_id',
@@ -47,9 +44,9 @@ class Ingredient extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'description' => 'string',
-        'qty' => 'decimal:0',
+        'qty' => 'decimal:2',
         'measurement_unit_id' => 'integer',
-        'price' => 'decimal:0'
+        'price' => 'decimal:2'
     ];
 
     /**
@@ -58,7 +55,6 @@ class Ingredient extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required|integer',
         'description' => 'required|string',
         'qty' => 'required|numeric',
         'measurement_unit_id' => 'required|integer',
@@ -67,5 +63,4 @@ class Ingredient extends Model
         'updated_at' => 'nullable'
     ];
 
-    
 }

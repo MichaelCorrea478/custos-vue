@@ -9,6 +9,7 @@ use App\Repositories\IngredientRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\IngredientResource;
+use Illuminate\Support\Facades\Gate;
 use Response;
 
 /**
@@ -41,7 +42,7 @@ class IngredientAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse(IngredientResource::collection($ingredients), 'Ingredients retrieved successfully');
+        return $this->sendResponse(IngredientResource::collection($ingredients), 'Ingredientes recuperados com sucesso');
     }
 
     /**
@@ -54,11 +55,11 @@ class IngredientAPIController extends AppBaseController
      */
     public function store(CreateIngredientAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        $ingredient = $this->ingredientRepository->create($input);
+        $ingredient = $this->ingredientRepository->create($input + ['user_id' => auth('api')->id()]);
 
-        return $this->sendResponse(new IngredientResource($ingredient), 'Ingredient saved successfully');
+        return $this->sendResponse(new IngredientResource($ingredient), 'Ingrediente salvo com sucesso');
     }
 
     /**
@@ -74,11 +75,13 @@ class IngredientAPIController extends AppBaseController
         /** @var Ingredient $ingredient */
         $ingredient = $this->ingredientRepository->find($id);
 
+        Gate::authorize('view', $ingredient);
+
         if (empty($ingredient)) {
             return $this->sendError('Ingredient not found');
         }
 
-        return $this->sendResponse(new IngredientResource($ingredient), 'Ingredient retrieved successfully');
+        return $this->sendResponse(new IngredientResource($ingredient), 'Ingrediente recuperado com sucesso');
     }
 
     /**
@@ -92,18 +95,20 @@ class IngredientAPIController extends AppBaseController
      */
     public function update($id, UpdateIngredientAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
         /** @var Ingredient $ingredient */
         $ingredient = $this->ingredientRepository->find($id);
 
+        Gate::authorize('update', $ingredient);
+
         if (empty($ingredient)) {
-            return $this->sendError('Ingredient not found');
+            return $this->sendError('Ingrediente não encontrado');
         }
 
         $ingredient = $this->ingredientRepository->update($input, $id);
 
-        return $this->sendResponse(new IngredientResource($ingredient), 'Ingredient updated successfully');
+        return $this->sendResponse(new IngredientResource($ingredient), 'Ingrediente atualizado com sucesso');
     }
 
     /**
@@ -127,6 +132,6 @@ class IngredientAPIController extends AppBaseController
 
         $ingredient->delete();
 
-        return $this->sendSuccess('Ingredient deleted successfully');
+        return $this->sendSuccess('Ingrediente deletado com sucesso');
     }
 }

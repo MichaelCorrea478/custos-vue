@@ -54,9 +54,9 @@ class CustomerAPIController extends AppBaseController
      */
     public function store(CreateCustomerAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        $customer = $this->customerRepository->create($input);
+        $customer = $this->customerRepository->create($input + ['user_id' => auth('api')->id()]);
 
         return $this->sendResponse(new CustomerResource($customer), 'Customer saved successfully');
     }

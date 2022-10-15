@@ -40,7 +40,7 @@ class MeasurementUnitAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse($measurementUnits->toArray(), 'Measurement Units retrieved successfully');
+        return $this->sendResponse($measurementUnits->toArray(), 'Unidades de medida recuperadas com sucesso.');
     }
 
     /**
@@ -57,7 +57,7 @@ class MeasurementUnitAPIController extends AppBaseController
 
         $measurementUnit = $this->measurementUnitRepository->create($input);
 
-        return $this->sendResponse($measurementUnit->toArray(), 'Measurement Unit saved successfully');
+        return $this->sendResponse($measurementUnit->toArray(), 'Unidade de medida criada com sucesso.');
     }
 
     /**

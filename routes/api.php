@@ -32,7 +32,7 @@ Route::group([
     return $request->user();
 }); */
 
-Route::middleware('auth.api')->group(function() {
+Route::middleware('auth:api')->group(function() {
     Route::resource('measurement_units', App\Http\Controllers\API\MeasurementUnitAPIController::class);
     Route::resource('ingredients', App\Http\Controllers\API\IngredientAPIController::class);
     Route::resource('recipes', App\Http\Controllers\API\RecipeAPIController::class);

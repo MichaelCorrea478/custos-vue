@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class MeasurementUnit extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'measurement_units';

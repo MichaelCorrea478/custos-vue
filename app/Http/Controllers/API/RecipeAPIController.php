@@ -9,6 +9,7 @@ use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\RecipeResource;
+use Illuminate\Support\Facades\Gate;
 use Response;
 
 /**
@@ -54,9 +55,9 @@ class RecipeAPIController extends AppBaseController
      */
     public function store(CreateRecipeAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        $recipe = $this->recipeRepository->create($input);
+        $recipe = $this->recipeRepository->create($input + ['user_id' => auth('api')->id()]);
 
         return $this->sendResponse(new RecipeResource($recipe), 'Recipe saved successfully');
     }
@@ -73,6 +74,8 @@ class RecipeAPIController extends AppBaseController
     {
         /** @var Recipe $recipe */
         $recipe = $this->recipeRepository->find($id);
+
+        Gate::authorize('view', $recipe);
 
         if (empty($recipe)) {
             return $this->sendError('Recipe not found');
@@ -92,10 +95,12 @@ class RecipeAPIController extends AppBaseController
      */
     public function update($id, UpdateRecipeAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
         /** @var Recipe $recipe */
         $recipe = $this->recipeRepository->find($id);
+
+        Gate::authorize('update', $recipe);
 
         if (empty($recipe)) {
             return $this->sendError('Recipe not found');
