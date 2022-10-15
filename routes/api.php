@@ -28,6 +28,16 @@ Route::group([
 
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+}); */
+
+Route::middleware('auth.api')->group(function() {
+    Route::resource('measurement_units', App\Http\Controllers\API\MeasurementUnitAPIController::class);
+    Route::resource('ingredients', App\Http\Controllers\API\IngredientAPIController::class);
+    Route::resource('recipes', App\Http\Controllers\API\RecipeAPIController::class);
+    Route::resource('customers', App\Http\Controllers\API\CustomerAPIController::class);
+    Route::resource('incomes', App\Http\Controllers\API\IncomeAPIController::class);
+    Route::resource('losses', App\Http\Controllers\API\LossAPIController::class);
+    Route::resource('productions', App\Http\Controllers\API\ProductionAPIController::class);
 });
