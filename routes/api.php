@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\RecipeAPIController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +35,10 @@ Route::group([
 Route::middleware('auth:api')->group(function() {
     Route::resource('measurement_units', App\Http\Controllers\API\MeasurementUnitAPIController::class);
     Route::resource('ingredients', App\Http\Controllers\API\IngredientAPIController::class);
+
     Route::resource('recipes', App\Http\Controllers\API\RecipeAPIController::class);
+    Route::post('recipe_ingredient/add', [RecipeAPIController::class, 'addIngredient'])->name('recipe_ingredient.add');
+
     Route::resource('customers', App\Http\Controllers\API\CustomerAPIController::class);
     Route::resource('incomes', App\Http\Controllers\API\IncomeAPIController::class);
     Route::resource('losses', App\Http\Controllers\API\LossAPIController::class);

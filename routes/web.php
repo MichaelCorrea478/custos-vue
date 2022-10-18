@@ -21,25 +21,11 @@ Auth::routes();
 
 Route::view('/{any}', 'home')->middleware(['auth'])->where('any', '.*');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
+/* Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('measurementUnits', App\Http\Controllers\MeasurementUnitController::class);
-
-
 Route::resource('ingredients', App\Http\Controllers\IngredientController::class);
-
-
 Route::resource('recipes', App\Http\Controllers\RecipeController::class);
-
-
 Route::resource('customers', App\Http\Controllers\CustomerController::class);
-
-
 Route::resource('incomes', App\Http\Controllers\IncomeController::class);
-
-
 Route::resource('losses', App\Http\Controllers\LossController::class);
-
-
-Route::resource('productions', App\Http\Controllers\ProductionController::class);
+Route::resource('productions', App\Http\Controllers\ProductionController::class); */

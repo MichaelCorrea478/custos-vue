@@ -8,7 +8,9 @@ use App\Models\Recipe;
 use App\Repositories\RecipeRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\API\AddIngredientToRecipeRequest;
 use App\Http\Resources\RecipeResource;
+use App\Repositories\IngredientRepository;
 use Illuminate\Support\Facades\Gate;
 use Response;
 
@@ -22,9 +24,11 @@ class RecipeAPIController extends AppBaseController
     /** @var  RecipeRepository */
     private $recipeRepository;
 
-    public function __construct(RecipeRepository $recipeRepo)
+    public function __construct(RecipeRepository $recipeRepo,
+                                IngredientRepository $ingredientRepository)
     {
         $this->recipeRepository = $recipeRepo;
+        $this->ingredientRepository = $ingredientRepository;
     }
 
     /**
@@ -80,12 +84,12 @@ class RecipeAPIController extends AppBaseController
         $recipe = $this->recipeRepository->find($id);
 
         if (empty($recipe)) {
-            return $this->sendError('Recipe not found');
+            return $this->sendError('Receita não encontrada');
         }
 
         Gate::authorize('view', $recipe);
 
-        return $this->sendResponse(new RecipeResource($recipe), 'Recipe retrieved successfully');
+        return $this->sendResponse(new RecipeResource($recipe), 'Receita recuperada com sucesso');
     }
 
     /**
@@ -139,5 +143,34 @@ class RecipeAPIController extends AppBaseController
         $recipe->delete();
 
         return $this->sendSuccess('Receita deletada com sucesso');
+    }
+
+    public function addIngredient(AddIngredientToRecipeRequest $request)
+    {
+        $request = $request->validated();
+
+        $recipe = $this->recipeRepository->find($request['recipe_id']);
+        $ingredient = $this->ingredientRepository->find($request['ingredient_id']);
+
+        if (empty($recipe)) {
+            return $this->sendError('Receita não encontrada');
+        }
+        if (empty($ingredient)) {
+            return $this->sendError('Ingrediente não encontrado');
+        }
+
+        Gate::authorize('addIngredient', [$recipe, $ingredient->user_id]);
+
+        if ($recipe->ingredients()->where('ingredients.id', $ingredient->id)->count()) {
+            $recipe->ingredients()->updateExistingPivot($ingredient->id, [
+                'qty_in_recipe' => $request['qty_in_recipe']
+            ]);
+        } else {
+            $recipe->ingredients()->attach($ingredient->id, [
+                'qty_in_recipe' => $request['qty_in_recipe']
+            ]);
+        }
+
+        return $this->show($recipe->id);
     }
 }

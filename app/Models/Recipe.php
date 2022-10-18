@@ -62,5 +62,9 @@ class Recipe extends Model
         'price' => 'required|numeric'
     ];
 
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class)->withPivot('qty_in_recipe');
+    }
 
 }

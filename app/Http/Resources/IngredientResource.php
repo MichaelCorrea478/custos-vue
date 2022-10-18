@@ -21,6 +21,9 @@ class IngredientResource extends JsonResource
             'qty' => $this->qty,
             'measurement_unit_id' => $this->measurement_unit_id,
             'price' => $this->price,
+            'qty_in_recipe' => $this->whenPivotLoaded('ingredient_recipe', function() {
+                                                        return $this->pivot->qty_in_recipe;
+                                                    }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

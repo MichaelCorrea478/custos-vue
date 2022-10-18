@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -90,5 +91,10 @@ class RecipePolicy
     public function forceDelete(User $user, Recipe $recipe)
     {
         //
+    }
+
+    public function addIngredient(User $user, Recipe $recipe, int $ingredient_user_id)
+    {
+        return $user->id == $recipe->user_id && $user->id == $ingredient_user_id;
     }
 }

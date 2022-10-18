@@ -23,7 +23,10 @@ class RecipeResource extends JsonResource
             'cost' => $this->cost,
             'avg_cost' => $this->avg_cost,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'ingredients' => (!empty($this->ingredients))
+                                ? IngredientResource::collection($this->ingredients)
+                                : []
         ];
     }
 }
