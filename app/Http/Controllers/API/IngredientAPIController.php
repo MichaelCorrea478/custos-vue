@@ -36,8 +36,12 @@ class IngredientAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $params = array_merge(
+                                $request->except(['skip', 'limit']),
+                                ['user_id' => auth('api')->id()]
+                            );
         $ingredients = $this->ingredientRepository->all(
-            $request->except(['skip', 'limit']),
+            $params,
             $request->get('skip'),
             $request->get('limit')
         );
@@ -75,11 +79,11 @@ class IngredientAPIController extends AppBaseController
         /** @var Ingredient $ingredient */
         $ingredient = $this->ingredientRepository->find($id);
 
-        Gate::authorize('view', $ingredient);
-
         if (empty($ingredient)) {
             return $this->sendError('Ingredient not found');
         }
+
+        Gate::authorize('view', $ingredient);
 
         return $this->sendResponse(new IngredientResource($ingredient), 'Ingrediente recuperado com sucesso');
     }
@@ -100,11 +104,11 @@ class IngredientAPIController extends AppBaseController
         /** @var Ingredient $ingredient */
         $ingredient = $this->ingredientRepository->find($id);
 
-        Gate::authorize('update', $ingredient);
-
         if (empty($ingredient)) {
             return $this->sendError('Ingrediente não encontrado');
         }
+
+        Gate::authorize('update', $ingredient);
 
         $ingredient = $this->ingredientRepository->update($input, $id);
 
@@ -127,8 +131,10 @@ class IngredientAPIController extends AppBaseController
         $ingredient = $this->ingredientRepository->find($id);
 
         if (empty($ingredient)) {
-            return $this->sendError('Ingredient not found');
+            return $this->sendError('Ingrediente não encontrado');
         }
+
+        Gate::authorize('delete', $ingredient);
 
         $ingredient->delete();
 

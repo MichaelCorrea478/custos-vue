@@ -36,13 +36,17 @@ class RecipeAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $params = array_merge(
+                                $request->except(['skip', 'limit']),
+                                ['user_id' => auth('api')->id()]
+                            );
         $recipes = $this->recipeRepository->all(
-            $request->except(['skip', 'limit']),
+            $params,
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse(RecipeResource::collection($recipes), 'Recipes retrieved successfully');
+        return $this->sendResponse(RecipeResource::collection($recipes), 'Receitas recuperadas com sucesso');
     }
 
     /**
@@ -59,7 +63,7 @@ class RecipeAPIController extends AppBaseController
 
         $recipe = $this->recipeRepository->create($input + ['user_id' => auth('api')->id()]);
 
-        return $this->sendResponse(new RecipeResource($recipe), 'Recipe saved successfully');
+        return $this->sendResponse(new RecipeResource($recipe), 'Receita salva com sucesso');
     }
 
     /**
@@ -75,11 +79,11 @@ class RecipeAPIController extends AppBaseController
         /** @var Recipe $recipe */
         $recipe = $this->recipeRepository->find($id);
 
-        Gate::authorize('view', $recipe);
-
         if (empty($recipe)) {
             return $this->sendError('Recipe not found');
         }
+
+        Gate::authorize('view', $recipe);
 
         return $this->sendResponse(new RecipeResource($recipe), 'Recipe retrieved successfully');
     }
@@ -100,15 +104,15 @@ class RecipeAPIController extends AppBaseController
         /** @var Recipe $recipe */
         $recipe = $this->recipeRepository->find($id);
 
-        Gate::authorize('update', $recipe);
-
         if (empty($recipe)) {
             return $this->sendError('Recipe not found');
         }
 
+        Gate::authorize('update', $recipe);
+
         $recipe = $this->recipeRepository->update($input, $id);
 
-        return $this->sendResponse(new RecipeResource($recipe), 'Recipe updated successfully');
+        return $this->sendResponse(new RecipeResource($recipe), 'Receita atualizada com sucesso');
     }
 
     /**
@@ -127,11 +131,13 @@ class RecipeAPIController extends AppBaseController
         $recipe = $this->recipeRepository->find($id);
 
         if (empty($recipe)) {
-            return $this->sendError('Recipe not found');
+            return $this->sendError('Receita não encontrada');
         }
+
+        Gate::authorize('delete', $recipe);
 
         $recipe->delete();
 
-        return $this->sendSuccess('Recipe deleted successfully');
+        return $this->sendSuccess('Receita deletada com sucesso');
     }
 }

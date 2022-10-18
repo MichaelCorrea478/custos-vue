@@ -24,12 +24,9 @@ class Recipe extends Model
     use HasFactory;
 
     public $table = 'recipes';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-
 
     public $fillable = [
         'user_id',
@@ -49,10 +46,10 @@ class Recipe extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'description' => 'string',
-        'price' => 'decimal:0',
+        'price' => 'decimal:2',
         'stock_qty' => 'integer',
-        'cost' => 'decimal:0',
-        'avg_cost' => 'decimal:0'
+        'cost' => 'decimal:2',
+        'avg_cost' => 'decimal:2'
     ];
 
     /**
@@ -61,15 +58,9 @@ class Recipe extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required|integer',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'stock_qty' => 'nullable|integer',
-        'cost' => 'nullable|numeric',
-        'avg_cost' => 'nullable|numeric',
-        'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'description' => 'string|max:255',
+        'price' => 'required|numeric'
     ];
 
-    
+
 }
