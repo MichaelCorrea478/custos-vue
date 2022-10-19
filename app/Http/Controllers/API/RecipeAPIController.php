@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\Recipes\IngredientAdded;
+use App\Events\Recipes\IngredientDeleted;
 use App\Http\Requests\API\CreateRecipeAPIRequest;
 use App\Http\Requests\API\UpdateRecipeAPIRequest;
 use App\Models\Recipe;
@@ -172,6 +174,8 @@ class RecipeAPIController extends AppBaseController
             ]);
         }
 
+        IngredientAdded::dispatch($recipe);
+
         return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente adicionado com sucesso');
     }
 
@@ -179,6 +183,7 @@ class RecipeAPIController extends AppBaseController
     {
         Gate::authorize('deleteIngredient', [$recipe, $ingredient->user_id]);
         $recipe->ingredients()->detach($ingredient->id);
+        IngredientDeleted::dispatch($recipe);
         return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente deletado com sucesso');
     }
 }

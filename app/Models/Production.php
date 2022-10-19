@@ -21,12 +21,9 @@ class Production extends Model
     use HasFactory;
 
     public $table = 'productions';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-
 
     public $fillable = [
         'recipe_id',
@@ -59,5 +56,13 @@ class Production extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
+
+    public function getCost()
+    {
+        return $this->qty * $this->cost;
+    }
 }
