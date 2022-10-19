@@ -97,4 +97,9 @@ class RecipePolicy
     {
         return $user->id == $recipe->user_id && $user->id == $ingredient_user_id;
     }
+
+    public function deleteIngredient(User $user, Recipe $recipe, int $ingredient_user_id)
+    {
+        return $user->id == $recipe->user_id && $user->id == $ingredient_user_id;
+    }
 }

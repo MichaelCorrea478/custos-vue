@@ -16,16 +16,19 @@ class IngredientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'description' => $this->description,
             'qty' => $this->qty,
             'measurement_unit_id' => $this->measurement_unit_id,
+            'measurement_unit' => $this->measurementUnit->description,
+            'measurement_unit_abbreviation' => $this->measurementUnit->abbreviation,
             'price' => $this->price,
+            'price_per_unit' => $this->getPricePerUnit(),
             'qty_in_recipe' => $this->whenPivotLoaded('ingredient_recipe', function() {
                                                         return $this->pivot->qty_in_recipe;
                                                     }),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'cost_in_recipe' => $this->whenPivotLoaded('ingredient_recipe', function() {
+                                                        return $this->pivot->qty_in_recipe * $this->getPricePerUnit();
+                                                    })
         ];
     }
 }

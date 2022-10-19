@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\AddIngredientToRecipeRequest;
 use App\Http\Resources\RecipeResource;
+use App\Models\Ingredient;
 use App\Repositories\IngredientRepository;
 use Illuminate\Support\Facades\Gate;
 use Response;
@@ -101,7 +102,7 @@ class RecipeAPIController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateRecipeAPIRequest $request)
+    public function update(int $id, UpdateRecipeAPIRequest $request)
     {
         $input = $request->validated();
 
@@ -171,6 +172,13 @@ class RecipeAPIController extends AppBaseController
             ]);
         }
 
-        return $this->show($recipe->id);
+        return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente adicionado com sucesso');
+    }
+
+    public function deleteIngredient(Recipe $recipe, Ingredient $ingredient)
+    {
+        Gate::authorize('deleteIngredient', [$recipe, $ingredient->user_id]);
+        $recipe->ingredients()->detach($ingredient->id);
+        return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente deletado com sucesso');
     }
 }

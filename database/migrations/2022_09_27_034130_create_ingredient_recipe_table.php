@@ -16,7 +16,7 @@ class CreateIngredientRecipeTable extends Migration
         Schema::create('ingredient_recipe', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ingredient_id')->constrained('ingredients');
-            $table->foreignId('recipe_id')->constrained('recipes');
+            $table->foreignId('recipe_id')->constrained('recipes')->onDelete('cascade');
             $table->decimal('qty_in_recipe', 8, 3);
             $table->timestamps();
         });

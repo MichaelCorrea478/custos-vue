@@ -63,4 +63,14 @@ class Ingredient extends Model
         'updated_at' => 'nullable'
     ];
 
+    public function measurementUnit()
+    {
+        return $this->belongsTo(MeasurementUnit::class);
+    }
+
+    public function getPricePerUnit()
+    {
+        return round($this->price / $this->qty, 2);
+    }
+
 }
