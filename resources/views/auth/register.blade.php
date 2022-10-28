@@ -31,12 +31,14 @@
     <![endif]-->
 </head>
 <body class="hold-transition register-page">
-<div class="register-box">
+<div class="register-box" id="app">
     <div class="register-logo">
         <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
     </div>
 
-    <div class="card">
+    <register-component csrf_token={{ @csrf_token() }}></register-component>
+
+    {{-- <div class="card">
         <div class="card-body register-card-body">
             <p class="login-box-msg">Register a new membership</p>
 
@@ -120,7 +122,7 @@
             <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
         </div>
         <!-- /.form-box -->
-    </div><!-- /.card -->
+    </div><!-- /.card --> --}}
 
     <!-- /.form-box -->
 </div>
@@ -142,6 +144,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"
         integrity="sha512-AJUWwfMxFuQLv1iPZOTZX0N/jTCIrLxyZjTRKQostNU71MzZTEPHjajSK20Kj1TwJELpP7gl+ShXw5brpnKwEg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" defer></script>
 
 </body>
 </html>
