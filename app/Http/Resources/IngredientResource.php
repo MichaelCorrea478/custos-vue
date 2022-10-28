@@ -27,7 +27,7 @@ class IngredientResource extends JsonResource
                                                         return $this->pivot->qty_in_recipe;
                                                     }),
             'cost_in_recipe' => $this->whenPivotLoaded('ingredient_recipe', function() {
-                                                        return $this->pivot->qty_in_recipe * $this->getPricePerUnit();
+                                                        return round($this->pivot->qty_in_recipe * $this->getPricePerUnit(), 4);
                                                     })
         ];
     }

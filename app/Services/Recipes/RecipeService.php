@@ -7,12 +7,6 @@ use App\Models\Recipe;
 
 class RecipeService
 {
-    public function updateCost(Recipe $recipe)
-    {
-        $recipe->cost = $recipe->getCost();
-        $recipe->save();
-    }
-
     public function increaseStock(int $recipeId, int $qty)
     {
         $recipe = Recipe::find($recipeId);

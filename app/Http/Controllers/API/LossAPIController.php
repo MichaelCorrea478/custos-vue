@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\Recipes\LossRegistered;
 use App\Http\Requests\API\CreateLossAPIRequest;
 use App\Http\Requests\API\UpdateLossAPIRequest;
 use App\Models\Loss;
@@ -9,6 +10,7 @@ use App\Repositories\LossRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\LossResource;
+use App\Models\Recipe;
 use Response;
 
 /**
@@ -54,11 +56,30 @@ class LossAPIController extends AppBaseController
      */
     public function store(CreateLossAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
+
+        /** @var Recipe $recipe */
+        $recipe = Recipe::find($input['recipe_id']);
+
+        if (empty($recipe)) {
+            return $this->sendError('Receita não encontrada');
+        }
+
+        if (auth('api')->id() != $recipe->user_id) {
+            return $this->sendError('Você não possui esta receita', 401);
+        }
+
+        if ($recipe->stock_qty < $input['qty']) {
+            return $this->sendError('Estoque insuficiente', 400);
+        }
+
+        if (!isset($input['cost'])) $input['cost'] = $recipe->avg_cost;
 
         $loss = $this->lossRepository->create($input);
 
-        return $this->sendResponse(new LossResource($loss), 'Loss saved successfully');
+        LossRegistered::dispatch($loss);
+
+        return $this->sendResponse(new LossResource($loss), 'Perda registrada com sucesso');
     }
 
     /**

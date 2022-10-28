@@ -19,8 +19,8 @@ class ProductionResource extends JsonResource
             'recipe_id' => $this->recipe_id,
             'qty' => $this->qty,
             'cost' => $this->cost,
+            'production_cost' => $this->getCost(),
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
         ];
     }
 }

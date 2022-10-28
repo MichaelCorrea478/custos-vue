@@ -70,7 +70,7 @@ class Ingredient extends Model
 
     public function getPricePerUnit()
     {
-        return round($this->price / $this->qty, 2);
+        return round($this->price / $this->qty, 4);
     }
 
 }

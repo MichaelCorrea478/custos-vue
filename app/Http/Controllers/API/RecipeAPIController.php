@@ -112,7 +112,7 @@ class RecipeAPIController extends AppBaseController
         $recipe = $this->recipeRepository->find($id);
 
         if (empty($recipe)) {
-            return $this->sendError('Recipe not found');
+            return $this->sendError('Receita não encontrada');
         }
 
         Gate::authorize('update', $recipe);
@@ -174,8 +174,6 @@ class RecipeAPIController extends AppBaseController
             ]);
         }
 
-        IngredientAdded::dispatch($recipe);
-
         return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente adicionado com sucesso');
     }
 
@@ -183,7 +181,6 @@ class RecipeAPIController extends AppBaseController
     {
         Gate::authorize('deleteIngredient', [$recipe, $ingredient->user_id]);
         $recipe->ingredients()->detach($ingredient->id);
-        IngredientDeleted::dispatch($recipe);
         return $this->sendResponse(new RecipeResource($recipe), 'Ingrediente deletado com sucesso');
     }
 }

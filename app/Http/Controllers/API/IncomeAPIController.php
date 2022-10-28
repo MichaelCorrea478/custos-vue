@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\Recipes\IncomeRegistered;
 use App\Http\Requests\API\CreateIncomeAPIRequest;
 use App\Http\Requests\API\UpdateIncomeAPIRequest;
 use App\Models\Income;
@@ -9,6 +10,7 @@ use App\Repositories\IncomeRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\IncomeResource;
+use App\Models\Recipe;
 use Response;
 
 /**
@@ -54,11 +56,31 @@ class IncomeAPIController extends AppBaseController
      */
     public function store(CreateIncomeAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
+
+        /** @var Recipe $recipe */
+        $recipe = Recipe::find($input['recipe_id']);
+
+        if (empty($recipe)) {
+            return $this->sendError('Receita não encontrada');
+        }
+
+        if (auth('api')->id() != $recipe->user_id) {
+            return $this->sendError('Você não possui esta receita', 401);
+        }
+
+        if ($recipe->stock_qty < $input['qty']) {
+            return $this->sendError('Estoque insuficiente', 400);
+        }
+
+        if (!isset($input['cost'])) $input['cost'] = $recipe->avg_cost;
+        if (!isset($input['price'])) $input['price'] = $recipe->price;
 
         $income = $this->incomeRepository->create($input);
 
-        return $this->sendResponse(new IncomeResource($income), 'Income saved successfully');
+        IncomeRegistered::dispatch($income);
+
+        return $this->sendResponse(new IncomeResource($income), 'Venda registrada com sucesso');
     }
 
     /**

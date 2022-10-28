@@ -19,9 +19,8 @@ class CreateRecipesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('description', 255)->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('stock_qty', false)->nullable();
-            $table->decimal('cost', 10, 2)->nullable();
-            $table->decimal('avg_cost', 10, 2)->nullable();
+            $table->integer('stock_qty', false)->nullable()->default(0);
+            $table->decimal('avg_cost', 10, 2)->nullable()->default(0);
             $table->timestamps();
         });
     }

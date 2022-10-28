@@ -21,7 +21,7 @@ class Loss extends Model
     use HasFactory;
 
     public $table = 'losses';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -43,7 +43,7 @@ class Loss extends Model
         'id' => 'integer',
         'recipe_id' => 'integer',
         'qty' => 'decimal:0',
-        'cost' => 'decimal:0'
+        'cost' => 'decimal:2'
     ];
 
     /**
@@ -54,10 +54,10 @@ class Loss extends Model
     public static $rules = [
         'recipe_id' => 'required|integer',
         'qty' => 'required|numeric',
-        'cost' => 'required|numeric',
+        'cost' => 'nullable|numeric',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
+
 }

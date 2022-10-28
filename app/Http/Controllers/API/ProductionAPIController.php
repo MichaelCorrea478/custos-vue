@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\Recipes\ProductionRegistered;
 use App\Http\Requests\API\CreateProductionAPIRequest;
 use App\Http\Requests\API\UpdateProductionAPIRequest;
 use App\Models\Production;
@@ -9,6 +10,8 @@ use App\Repositories\ProductionRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\ProductionResource;
+use App\Models\Recipe;
+use Illuminate\Support\Facades\Gate;
 use Response;
 
 /**
@@ -35,6 +38,7 @@ class ProductionAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        dd($request);
         $productions = $this->productionRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
@@ -54,11 +58,26 @@ class ProductionAPIController extends AppBaseController
      */
     public function store(CreateProductionAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
+
+        /** @var Recipe $recipe **/
+        $recipe = Recipe::find($input['recipe_id']);
+
+        if (empty($recipe)) {
+            return $this->sendError('Receita não encontrada');
+        }
+
+        if (auth('api')->id() != $recipe->user_id) {
+            return $this->sendError('Você não possui esta receita');
+        }
+
+        if (!isset($input['cost'])) $input['cost'] = $recipe->getCost();
 
         $production = $this->productionRepository->create($input);
 
-        return $this->sendResponse(new ProductionResource($production), 'Production saved successfully');
+        ProductionRegistered::dispatch($production);
+
+        return $this->sendResponse(new ProductionResource($production), 'Produção registrada com sucesso');
     }
 
     /**

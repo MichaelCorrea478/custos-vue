@@ -53,9 +53,9 @@ class MeasurementUnitAPIController extends AppBaseController
      */
     public function store(CreateMeasurementUnitAPIRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
-        $measurementUnit = $this->measurementUnitRepository->create($input);
+        $measurementUnit = $this->measurementUnitRepository->create($input + ['user_id' => auth('api')->id()]);
 
         return $this->sendResponse($measurementUnit->toArray(), 'Unidade de medida criada com sucesso.');
     }

@@ -28,7 +28,8 @@ class Production extends Model
     public $fillable = [
         'recipe_id',
         'qty',
-        'cost'
+        'cost',
+        'created_at'
     ];
 
     /**
@@ -39,8 +40,8 @@ class Production extends Model
     protected $casts = [
         'id' => 'integer',
         'recipe_id' => 'integer',
-        'qty' => 'decimal:0',
-        'cost' => 'decimal:0'
+        'qty' => 'decimal:2',
+        'cost' => 'decimal:2'
     ];
 
     /**
@@ -51,7 +52,7 @@ class Production extends Model
     public static $rules = [
         'recipe_id' => 'required|integer',
         'qty' => 'required|numeric',
-        'cost' => 'required|numeric',
+        'cost' => 'nullable|numeric',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
@@ -63,6 +64,6 @@ class Production extends Model
 
     public function getCost()
     {
-        return $this->qty * $this->cost;
+        return round($this->qty * $this->cost, 2);
     }
 }

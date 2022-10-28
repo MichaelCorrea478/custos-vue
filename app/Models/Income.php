@@ -23,7 +23,7 @@ class Income extends Model
     use HasFactory;
 
     public $table = 'incomes';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -48,8 +48,8 @@ class Income extends Model
         'recipe_id' => 'integer',
         'customer_id' => 'integer',
         'qty' => 'decimal:0',
-        'price' => 'decimal:0',
-        'cost' => 'decimal:0'
+        'price' => 'decimal:2',
+        'cost' => 'decimal:2'
     ];
 
     /**
@@ -59,13 +59,13 @@ class Income extends Model
      */
     public static $rules = [
         'recipe_id' => 'required|integer',
-        'customer_id' => 'required|integer',
+        'customer_id' => 'nullable|integer',
         'qty' => 'required|numeric',
-        'price' => 'required|numeric',
-        'cost' => 'required|numeric',
+        'price' => 'nullable|numeric',
+        'cost' => 'nullable|numeric',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
+
 }

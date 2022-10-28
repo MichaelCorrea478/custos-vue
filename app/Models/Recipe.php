@@ -76,7 +76,7 @@ class Recipe extends Model
 
     public function getStockCost()
     {
-        return ($this->stock_qty * $this->cost) ?? 0;
+        return ($this->stock_qty * $this->avg_cost) ?? 0;
     }
 
 }
