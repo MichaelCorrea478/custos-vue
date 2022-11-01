@@ -58,8 +58,8 @@ class Recipe extends Model
      * @var array
      */
     public static $rules = [
-        'description' => 'string|max:255',
-        'price' => 'required|numeric'
+        'description' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0.01'
     ];
 
     public function ingredients()

@@ -47,9 +47,9 @@
                                         <button class='btn btn-default btn-xs'>
                                             <i class="far fa-eye"></i>
                                         </button>
-                                        <button class='btn btn-default btn-xs'>
+                                        <router-link :to="{ name: 'recipes.edit', params: { id: recipe.id} }" class='btn btn-default btn-xs'>
                                             <i class="far fa-edit"></i>
-                                        </button>
+                                        </router-link>
                                         <button class='btn btn-danger btn-xs' @click="deleteRecipe(recipe.id)">
                                             <i class="far fa-trash-alt"></i>
                                         </button>
