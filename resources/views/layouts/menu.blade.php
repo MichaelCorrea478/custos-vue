@@ -1,7 +1,7 @@
 <li class="nav-item">
     <a href="{{-- {{ route('measurementUnits.index') }} --}}"
        class="nav-link {{ Request::is('measurementUnits*') ? 'active' : '' }}">
-        <p>Measurement Units</p>
+        <p>Unidades de medida</p>
     </a>
 </li>
 
@@ -9,23 +9,23 @@
 <li class="nav-item">
     <a href="{{-- {{ route('ingredients.index') }} --}}"
        class="nav-link {{ Request::is('ingredients*') ? 'active' : '' }}">
-        <p>Ingredients</p>
+        <p>Ingredientes</p>
     </a>
 </li>
 
 
 <li class="nav-item">
-    <a href="{{-- {{ route('recipes.index') }} --}}"
+    <router-link :to="{ name: 'recipes.index' }"
        class="nav-link {{ Request::is('recipes*') ? 'active' : '' }}">
-        <p>Recipes</p>
-    </a>
+        <p>Receitas</p>
+    </router-link>
 </li>
 
 
 <li class="nav-item">
     <a href="{{-- {{ route('customers.index') }} --}}"
        class="nav-link {{ Request::is('customers*') ? 'active' : '' }}">
-        <p>Customers</p>
+        <p>Clientes</p>
     </a>
 </li>
 
@@ -33,7 +33,7 @@
 <li class="nav-item">
     <a href="{{ route('incomes.index') }}"
        class="nav-link {{ Request::is('incomes*') ? 'active' : '' }}">
-        <p>Incomes</p>
+        <p>Vendas</p>
     </a>
 </li>
 
@@ -41,7 +41,7 @@
 <li class="nav-item">
     <a href="{{ route('losses.index') }}"
        class="nav-link {{ Request::is('losses*') ? 'active' : '' }}">
-        <p>Losses</p>
+        <p>Perdas</p>
     </a>
 </li>
 
@@ -49,7 +49,7 @@
 <li class="nav-item">
     <a href="{{ route('productions.index') }}"
        class="nav-link {{ Request::is('productions*') ? 'active' : '' }}">
-        <p>Productions</p>
+        <p>Produção</p>
     </a>
 </li>
 

@@ -23,7 +23,7 @@ export default function useRecipes() {
         errors.value = ''
         try {
             await axios.post('/api/recipes', data)
-            await router.push({ name: 'recipes.index '})
+            await router.push({ name: 'recipes.index'})
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {

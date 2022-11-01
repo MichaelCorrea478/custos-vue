@@ -1,22 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import RecipesIndex from '../components/recipes/RecipesIndex.vue'
+import RecipesCreate from '../components/recipes/RecipesCreate.vue'
+
 import IngredientsIndex from '../components/ingredients/IngredientsIndex.vue'
 
 const routes = [
     {
-        path: '/home',
+        path: '/api/recipes',
         name: 'recipes.index',
         component: RecipesIndex
     },
     {
-        path: '/api/recipes',
-        name: 'recipes.inndex',
-        component: RecipesIndex
+        path: '/api/recipes/create',
+        name: 'recipes.create',
+        component: RecipesCreate
     },
     {
         path: '/api/ingredients',
-        name: 'ingredients.inndex',
+        name: 'ingredients.index',
         component: IngredientsIndex
     }
 ];

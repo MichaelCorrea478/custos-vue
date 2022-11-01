@@ -7,10 +7,9 @@
                     <h1>Receitas</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="">
+                    <router-link :to="{ name: 'recipes.create'}" class="btn btn-primary float-right">
                         Nova Receita
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
