@@ -90,7 +90,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <section class="content">
-            @yield('content')
+            <router-view />
         </section>
     </div>
 

@@ -1,25 +1,24 @@
 <div class="table-responsive">
     <table class="table" id="recipes-table">
         <thead>
-        <tr>
-            <th>User Id</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Stock Qty</th>
-        <th>Cost</th>
-        <th>Avg Cost</th>
-            <th colspan="3">Action</th>
-        </tr>
+            <tr>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock Qty</th>
+                <th>Cost</th>
+                <th>Avg Cost</th>
+                <th colspan="3">Action</th>
+            </tr>
         </thead>
         <tbody>
         @foreach($recipes as $recipe)
             <tr>
                 <td>{{ $recipe->user_id }}</td>
-            <td>{{ $recipe->description }}</td>
-            <td>{{ $recipe->price }}</td>
-            <td>{{ $recipe->stock_qty }}</td>
-            <td>{{ $recipe->cost }}</td>
-            <td>{{ $recipe->avg_cost }}</td>
+                <td>{{ $recipe->description }}</td>
+                <td>{{ $recipe->price }}</td>
+                <td>{{ $recipe->stock_qty }}</td>
+                <td>{{ $recipe->cost }}</td>
+                <td>{{ $recipe->avg_cost }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['recipes.destroy', $recipe->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

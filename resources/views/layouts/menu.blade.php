@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a href="{{ route('measurementUnits.index') }}"
+    <a href="{{-- {{ route('measurementUnits.index') }} --}}"
        class="nav-link {{ Request::is('measurementUnits*') ? 'active' : '' }}">
         <p>Measurement Units</p>
     </a>
@@ -7,7 +7,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('ingredients.index') }}"
+    <a href="{{-- {{ route('ingredients.index') }} --}}"
        class="nav-link {{ Request::is('ingredients*') ? 'active' : '' }}">
         <p>Ingredients</p>
     </a>
@@ -15,7 +15,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('recipes.index') }}"
+    <a href="{{-- {{ route('recipes.index') }} --}}"
        class="nav-link {{ Request::is('recipes*') ? 'active' : '' }}">
         <p>Recipes</p>
     </a>
@@ -23,7 +23,7 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('customers.index') }}"
+    <a href="{{-- {{ route('customers.index') }} --}}"
        class="nav-link {{ Request::is('customers*') ? 'active' : '' }}">
         <p>Customers</p>
     </a>
