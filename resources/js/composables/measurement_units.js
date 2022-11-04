@@ -23,7 +23,6 @@ export default function useMeasurementUnits() {
         errors.value = ''
         try {
             await axios.post('/api/measurement_units', data)
-            await router.push({ name: 'measurement_unit.index' })
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {
@@ -37,7 +36,6 @@ export default function useMeasurementUnits() {
         errors.value = ''
         try {
             await axios.put(`/api/measurement_units/${id}`, measurementUnit.value)
-            await router.push({ name: 'measurement_unit.index' })
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {

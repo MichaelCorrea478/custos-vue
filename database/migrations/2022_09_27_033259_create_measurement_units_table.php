@@ -16,6 +16,7 @@ class CreateMeasurementUnitsTable extends Migration
     {
         Schema::create('measurement_units', function (Blueprint $table) {
             $table->id('id');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('abbreviation', 255);
             $table->string('description', 255);
             $table->timestamps();

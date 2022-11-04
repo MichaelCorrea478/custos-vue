@@ -1,7 +1,7 @@
 <li class="nav-item">
-    <a href="{{-- {{ route('measurementUnits.index') }} --}}"
+    <router-link :to="{ name: 'measurement_units.index' }"
        class="nav-link {{ Request::is('measurementUnits*') ? 'active' : '' }}">
-        <p>Unidades de medida</p>
+        <p>Unidades de Medida</p>
     </a>
 </li>
 

@@ -7,26 +7,28 @@ import RecipeView from '../components/recipes/RecipeView.vue'
 
 import IngredientsIndex from '../components/ingredients/IngredientsIndex.vue'
 
+import MeasurementUnitIndex from '../components/measurement_units/MeasurementUnitIndex.vue'
+
 const routes = [
     // RECIPES Routes
     {
-        path: '/api/recipes',
+        path: '/recipes',
         name: 'recipes.index',
         component: RecipesIndex
     },
     {
-        path: '/api/recipes/create',
+        path: '/recipes/create',
         name: 'recipes.create',
         component: RecipesCreate
     },
     {
-        path: '/api/recipes/:id/edit',
+        path: '/recipes/:id/edit',
         name: 'recipes.edit',
         component: RecipesEdit,
         props: true
     },
     {
-        path: '/api/recipes/:id',
+        path: '/recipes/:id',
         name: 'recipes.view',
         component: RecipeView,
         props: true
@@ -34,9 +36,16 @@ const routes = [
 
     // INGREDIENTS Routes
     {
-        path: '/api/ingredients',
+        path: '/ingredients',
         name: 'ingredients.index',
         component: IngredientsIndex
+    },
+
+    // MEASUREMENT UNITS Routes
+    {
+        path: '/measurement_units',
+        name: 'measurement_units.index',
+        component: MeasurementUnitIndex
     },
 
 ];
