@@ -21,6 +21,7 @@ class RecipeResource extends JsonResource
             'stock_qty' => $this->stock_qty,
             'cost' => $this->getCost(),
             'avg_cost' => $this->avg_cost,
+            'profit_margin' => $this->getProfitMargin(),
             'ingredients' => (!empty($this->ingredients))
                                 ? IngredientResource::collection($this->ingredients)
                                 : []

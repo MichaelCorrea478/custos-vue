@@ -7,10 +7,10 @@
 
 
 <li class="nav-item">
-    <a href="{{-- {{ route('ingredients.index') }} --}}"
+    <router-link :to="{ name: 'ingredients.index' }"
        class="nav-link {{ Request::is('ingredients*') ? 'active' : '' }}">
         <p>Ingredientes</p>
-    </a>
+    </router-link>
 </li>
 
 

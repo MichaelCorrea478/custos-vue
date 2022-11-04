@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import RecipesIndex from '../components/recipes/RecipesIndex.vue'
 import RecipesCreate from '../components/recipes/RecipesCreate.vue'
 import RecipesEdit from '../components/recipes/RecipesEdit.vue'
+import RecipeView from '../components/recipes/RecipeView.vue'
 
 import IngredientsIndex from '../components/ingredients/IngredientsIndex.vue'
 
@@ -24,13 +25,20 @@ const routes = [
         component: RecipesEdit,
         props: true
     },
+    {
+        path: '/api/recipes/:id',
+        name: 'recipes.view',
+        component: RecipeView,
+        props: true
+    },
 
     // INGREDIENTS Routes
     {
         path: '/api/ingredients',
         name: 'ingredients.index',
         component: IngredientsIndex
-    }
+    },
+
 ];
 
 export default createRouter({

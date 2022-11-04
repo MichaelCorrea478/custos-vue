@@ -67,16 +67,25 @@ class Recipe extends Model
         return $this->belongsToMany(Ingredient::class)->withPivot('qty_in_recipe');
     }
 
-    public function getCost()
+    public function getCost() :float
     {
-        return $this->ingredients->reduce(function($cost, $ingredient) {
+        $cost = $this->ingredients->reduce(function($cost, $ingredient) {
             return $cost += $ingredient->getPricePerUnit() * $ingredient->pivot->qty_in_recipe;
-        });
+        }) ?? 0;
+        return round($cost, 2);
     }
 
-    public function getStockCost()
+    public function getStockCost() :float
     {
         return ($this->stock_qty * $this->avg_cost) ?? 0;
+    }
+
+    public function getProfitMargin() :float
+    {
+        $cost = $this->getCost();
+        return ($cost > 0)
+            ? round(($this->price - $this->getCost()) / $this->getCost() * 100, 2)
+            : 100;
     }
 
 }

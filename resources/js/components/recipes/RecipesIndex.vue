@@ -44,9 +44,9 @@
                                 <td>{{ recipe.avg_cost }}</td>
                                 <td width="120">
                                     <div class='btn-group'>
-                                        <button class='btn btn-default btn-xs'>
+                                        <router-link :to="{ name: 'recipes.view', params: { id: recipe.id} }" class='btn btn-default btn-xs'>
                                             <i class="far fa-eye"></i>
-                                        </button>
+                                        </router-link>
                                         <router-link :to="{ name: 'recipes.edit', params: { id: recipe.id} }" class='btn btn-default btn-xs'>
                                             <i class="far fa-edit"></i>
                                         </router-link>
