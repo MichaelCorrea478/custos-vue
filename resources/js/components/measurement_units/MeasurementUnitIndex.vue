@@ -1,7 +1,5 @@
 <template>
-<pre>{{measurementUnit.id}}</pre>
-<pre>{{measurementUnit.description}}</pre>
-<pre>{{measurementUnit.abbreviation}}</pre>
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -9,7 +7,7 @@
                     <h1>Unidades de Medida</h1>
                 </div>
                 <div class="col-sm-6">
-                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-create-measurement-unit">
+                    <button class="btn btn-primary float-right" @click="openCreateModal">
                         Nova Unidade
                     </button>
                 </div>
@@ -40,7 +38,7 @@
                                 <td>{{ unit.abbreviation }}</td>
                                 <td width="120">
                                     <div class='btn-group'>
-                                        <button class='btn btn-default btn-xs' @click="getMeasurementUnit(unit.id)" data-toggle="modal" data-target="#modal-update-measurement-unit">
+                                        <button class='btn btn-default btn-xs' @click="openUpdateModal" >
                                             <i class="far fa-edit"></i>
                                         </button>
                                         <button class='btn btn-danger btn-xs' @click="deleteMeasurementUnit(unit.id)">
@@ -92,7 +90,7 @@
                                 <label for="abbreviation" class="form-label">Abreviação:</label>
                                 <input type="text" name="abbreviation" id="abbreviation" class="form-control" v-model="form.abbreviation">
                             </div>
-                            <div class="form-group col-sm-12 col-md-2 d-flex justify-content-center">
+                            <div class="form-group col-sm-12 d-flex justify-content-center">
                                 <button class="btn btn-success w-50">Salvar</button>
                             </div>
                         </div>
@@ -125,24 +123,23 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <form @submit.once.prevent="updateMeasurementUnit">
-                            <div class="form-group col-sm-6 col-md-6">
+                    <form @submit.once.prevent="submitUpdateForm(measurementUnit.id)">
+                        <div class="row">
+                            <div class="form-group col-sm-8">
                                 <label for="description" class="form-label">Nome:</label>
                                 <input type="text" name="description" id="description" class="form-control"
                                     v-model="measurementUnit.description">
                             </div>
-                            <div class="form-group col-sm-6 col-md-4">
+                            <div class="form-group col-sm-4">
                                 <label for="abbreviation" class="form-label">Abreviação:</label>
                                 <input type="text" name="abbreviation" id="abbreviation" class="form-control"
                                     v-model="measurementUnit.abbreviation">
                             </div>
-                            <div class="form-group col-sm-12 col-md-2 d-flex justify-content-center">
-                                <input type="hidden" name="id" v-model="measurementUnit.id">
+                            <div class="form-group col-sm-12 d-flex justify-content-center">
                                 <button class="btn btn-success w-50">Salvar</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
@@ -157,25 +154,52 @@
 <script setup>
 import useMeasurementUnits from '../../composables/measurement_units';
 import { onMounted, reactive } from 'vue';
+import Swal from 'sweetalert2';
 
 const { measurementUnit, measurementUnits, errors, getMeasurementUnit, getMeasurementUnits, destroyMeasurementUnit, storeMeasurementUnit, updateMeasurementUnit } = useMeasurementUnits()
+
+let createModal = $('#modal-create-measurement-unit')
+let updateModal = $('#modal-update-measurement-unit')
 
 const form = reactive({
     description: measurementUnit.description,
     abbreviation: measurementUnit.abbreviation
 })
 
+const openCreateModal = function() {
+    createModal.modal('show')
+}
+
+const openUpdateModal = async function(id) {
+    await getMeasurementUnit(unit.id)
+    updateModal.modal('show')
+}
+
 const saveMeasurementUnit = async () => {
     await storeMeasurementUnit(form)
     await getMeasurementUnits()
+    createModal.modal('hide')
+}
+
+const submitUpdateForm = async (id) => {
+    await updateMeasurementUnit(id)
+    await getMeasurementUnits()
+    updateModal.modal('hide')
 }
 
 const deleteMeasurementUnit = async (id) => {
-    if (!window.confirm('Tem certeza que deseja deletar esta unidade de medida?')) {
-        return
-    }
-    await destroyMeasurementUnit(id)
-    await getMeasurementUnits()
+    Swal.fire({
+        title: 'Tem certeza que deseja deletar esta unidade?',
+        showCancelButton: true,
+        calcelButtonText: 'Cancelar',
+        confirmButtonText: 'Deletar',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            await destroyMeasurementUnit(id)
+            await getMeasurementUnits()
+            Swal.fire('Deletado!', '', 'success')
+        }
+    })
 }
 
 onMounted(() => {

@@ -97,12 +97,12 @@ class MeasurementUnitAPIController extends AppBaseController
         $measurementUnit = $this->measurementUnitRepository->find($id);
 
         if (empty($measurementUnit)) {
-            return $this->sendError('Measurement Unit not found');
+            return $this->sendError('Unidade de medida não encontrada');
         }
 
         $measurementUnit = $this->measurementUnitRepository->update($input, $id);
 
-        return $this->sendResponse($measurementUnit->toArray(), 'MeasurementUnit updated successfully');
+        return $this->sendResponse($measurementUnit->toArray(), 'Unidade de medida atualizada com sucesso');
     }
 
     /**

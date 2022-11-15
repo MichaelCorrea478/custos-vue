@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 export default function useMeasurementUnits() {
     const measurementUnit = ref([])
@@ -23,6 +24,13 @@ export default function useMeasurementUnits() {
         errors.value = ''
         try {
             await axios.post('/api/measurement_units', data)
+                    .then((response) => {
+                        let iconType = (response.data.success) ? 'success' : 'error'
+                        Swal.fire({
+                            icon: iconType,
+                            title: response.data.message
+                        })
+                    })
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {
@@ -36,6 +44,13 @@ export default function useMeasurementUnits() {
         errors.value = ''
         try {
             await axios.put(`/api/measurement_units/${id}`, measurementUnit.value)
+                    .then((response) => {
+                        let iconType = (response.data.success) ? 'success' : 'error'
+                        Swal.fire({
+                            icon: iconType,
+                            title: response.data.message
+                        })
+                    })
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {
